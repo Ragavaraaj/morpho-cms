@@ -1,0 +1,20 @@
+meta {
+  name: Update Form
+  type: http
+  seq: 5
+}
+
+put {
+  url: {{BASE_URL}}/forms/{{formId}}
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "title": "Updated Bruno Form",
+    "description": "Updated from Bruno",
+    "slug": "bruno-test-form",
+    "status": "published"
+  }
+}

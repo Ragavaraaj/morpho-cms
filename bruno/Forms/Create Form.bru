@@ -1,0 +1,20 @@
+meta {
+  name: Create Form
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{BASE_URL}}/forms
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "title": "Bruno Test Form",
+    "description": "Created from Bruno",
+    "slug": "bruno-test-form",
+    "status": "draft"
+  }
+}

@@ -54,22 +54,23 @@ const data = {
   ],
   navMain: [
     {
-      title: "Pages",
-      url: "/admin/pages",
-      icon: FileText,
-      isActive: true,
-      items: [
-        { title: "Add New Page", url: "/admin/pages/add", icon: FilePlus },
-        { title: "Show All Pages", url: "/admin/pages", icon: ListOrdered },
-      ],
-    },
-    {
       title: "Forms",
       url: "/admin/forms",
       icon: FormInput,
+      isActive: true,
       items: [
         { title: "Add New Form", url: "/admin/forms/add", icon: FilePlus },
         { title: "Show All Forms", url: "/admin/forms", icon: ListOrdered },
+      ],
+    },
+    {
+      title: "Pages",
+      url: "/admin/pages",
+      icon: FileText,
+
+      items: [
+        { title: "Add New Page", url: "/admin/pages/add", icon: FilePlus },
+        { title: "Show All Pages", url: "/admin/pages", icon: ListOrdered },
       ],
     },
     {

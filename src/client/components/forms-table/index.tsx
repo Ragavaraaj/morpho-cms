@@ -7,12 +7,12 @@ import {
 import {
   Table,
   TableBody,
-  TableCell,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/client/components/shadcn/table";
-import { Form } from "@/server/db/form/interface";
+import type { Form } from "@/server/db/form/interface";
+import { FormsTableRows } from "./rows";
 
 export default function FormsTable({ forms }: { forms: Form[] }) {
   return (
@@ -31,14 +31,7 @@ export default function FormsTable({ forms }: { forms: Form[] }) {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {forms.map((form) => (
-              <TableRow key={form._id}>
-                <TableCell>{form.title}</TableCell>
-                <TableCell>{form.description}</TableCell>
-                <TableCell>{form.slug}</TableCell>
-                <TableCell>{form.status}</TableCell>
-              </TableRow>
-            ))}
+            <FormsTableRows forms={forms} />
           </TableBody>
         </Table>
       </CardContent>

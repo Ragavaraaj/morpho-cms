@@ -1,0 +1,8 @@
+export interface FieldError {
+  _id: string;
+  type: string; // Should match FieldErrorType enum
+  fieldId: string; // ObjectId as string
+  message: string;
+  created_at_db: Date;
+  updated_at_db: Date;
+}

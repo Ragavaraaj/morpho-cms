@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "custom-cms-bruno",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}

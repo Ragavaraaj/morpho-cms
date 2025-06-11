@@ -12,9 +12,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/client/components/shadcn/table";
-import { Forms } from "@/server/interface";
+import { Form } from "@/server/db/form/interface";
 
-export default function FormsTable({ posts }: { posts: Forms[] }) {
+export default function FormsTable({ forms }: { forms: Form[] }) {
   return (
     <Card>
       <CardHeader>
@@ -31,12 +31,12 @@ export default function FormsTable({ posts }: { posts: Forms[] }) {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {posts.map((post) => (
-              <TableRow key={post._id}>
-                <TableCell>{post.title}</TableCell>
-                <TableCell>{post.description}</TableCell>
-                <TableCell>{post.slug}</TableCell>
-                <TableCell>{post.status}</TableCell>
+            {forms.map((form) => (
+              <TableRow key={form._id}>
+                <TableCell>{form.title}</TableCell>
+                <TableCell>{form.description}</TableCell>
+                <TableCell>{form.slug}</TableCell>
+                <TableCell>{form.status}</TableCell>
               </TableRow>
             ))}
           </TableBody>

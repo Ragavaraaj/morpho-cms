@@ -1,4 +1,4 @@
-import { FormFields } from "@/client/components/forms-table/form-fields";
+import { FormFields } from "@/client/components/forms-table/fields";
 import { handleGetFormById } from "@/server/actions/formAction";
 
 export default async function EditForm({

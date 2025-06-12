@@ -1,4 +1,4 @@
-import { FormFields } from "@/client/components/forms-table/form-fields";
+import { FormFields } from "@/client/components/forms-table/fields";
 
 export default function AddForm() {
   const initializeFormData = {

@@ -6,6 +6,9 @@ export const $full_project = {
     description: 1,
     slug: 1,
     status: 1,
+    footer: 1,
+    notes: 1,
+    lead_source: 1,
     fields: {
       $map: {
         input: "$fields",
@@ -49,6 +52,9 @@ export const $partial_project = {
     description: 1,
     slug: 1,
     status: 1,
+    footer: 1,
+    notes: 1,
+    lead_source: 1,
   },
 };
 

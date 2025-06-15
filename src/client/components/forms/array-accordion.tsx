@@ -8,7 +8,7 @@ import {
 
 type ArrayAccordionProps = {
   parentPath: string;
-  children: React.ReactNode;
+  children: React.ReactNode | null;
   expanded: string[];
   setExpanded: (v: string[]) => void;
 };
@@ -19,20 +19,11 @@ export function ArrayAccordion({
   expanded,
   setExpanded,
 }: Readonly<ArrayAccordionProps>) {
-  if (children === null) {
-    return (
-      <Accordion type="multiple" value={expanded} onValueChange={setExpanded}>
-        <AccordionItem value={parentPath}>
-          <AccordionTrigger>{parentPath}</AccordionTrigger>
-        </AccordionItem>
-      </Accordion>
-    );
-  }
   return (
     <Accordion type="multiple" value={expanded} onValueChange={setExpanded}>
       <AccordionItem value={parentPath}>
         <AccordionTrigger>{parentPath}</AccordionTrigger>
-        <AccordionContent>{children}</AccordionContent>
+        {children && <AccordionContent>{children}</AccordionContent>}
       </AccordionItem>
     </Accordion>
   );

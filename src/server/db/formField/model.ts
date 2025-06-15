@@ -5,7 +5,6 @@ import { FieldType } from "@/server/db/enum";
 
 export const FormFieldSchema = new Schema({
   status: { type: Boolean, default: true },
-  formId: { type: Schema.Types.ObjectId, ref: "Form", required: true },
   label: { type: String, required: true },
   type: { type: String, enum: Object.values(FieldType), required: true },
   required: { type: Boolean, default: false },

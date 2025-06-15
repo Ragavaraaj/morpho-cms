@@ -1,7 +1,6 @@
 "use client";
-import { ObjectCard } from "@/client/components/forms/object-card";
-import { useFormContext } from "@/client/hooks/useFormDataConext";
-import { Card, CardContent } from "@/client/components/shadcn/card";
+import { TraverseRender } from "@/client/components/forms/traverse-render";
+import { useFormContext } from "@/client/hooks/useFormDataContext";
 
 export function FormFields() {
   const { data } = useFormContext();
@@ -13,10 +12,9 @@ export function FormFields() {
   const { fields = [], ...basicDetails } = clonedData;
 
   return (
-    <Card className="w-full">
-      <CardContent>
-        <ObjectCard obj={{ fields, basicDetails }} title="Form Fields" />
-      </CardContent>
-    </Card>
-  ); // Wrap fields in an object for ObjectCard
+    <div className="w-full flex flex-col gap-4">
+      <TraverseRender obj={basicDetails} title="Basic Details" />
+      <TraverseRender obj={fields} title="Fields" />
+    </div>
+  );
 }

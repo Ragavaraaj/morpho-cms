@@ -10,7 +10,8 @@ import {
   handleUpdateForm,
 } from "@/server/actions/formAction";
 import { FormSchema, FormValues } from "../../zod-schemas/form-schema";
-import { FormDataContext } from "@/client/hooks/useFormDataConext";
+import { FormDataContext } from "@/client/hooks/useFormDataContext";
+import { INITIAL_FORM_VALUES } from "@/client/lib/constants";
 
 export function ClientFormLayout({
   formData,
@@ -24,11 +25,8 @@ export function ClientFormLayout({
   const router = useRouter();
   const form = useForm<FormValues>({
     defaultValues: {
-      title: formData?.title ?? "",
-      description: formData?.description ?? "",
-      slug: formData?.slug ?? "",
-      status: formData?.status ?? "draft",
-      fields: formData?.fields ?? [],
+      ...INITIAL_FORM_VALUES,
+      ...formData,
     },
     resolver: zodResolver(FormSchema),
   });
@@ -59,6 +57,9 @@ export function ClientFormLayout({
         slug: "",
         status: "draft",
         fields: [],
+        footer: "",
+        notes: "",
+        lead_source: "",
       },
       form,
       onSubmit,

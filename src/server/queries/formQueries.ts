@@ -32,9 +32,7 @@ export const createForm = async (
   data: Omit<Form, "id" | "history">
 ): Promise<string> => {
   await dbConnect();
-  // Create the form document first (without fields)
-  const { fields = [], ...formData } = data;
-  const created = await FormModel.create(formData, { autoCreate: true });
+  const created = await FormModel.create(data);
   if (!created?.id) {
     throw new Error("Failed to create form");
   }

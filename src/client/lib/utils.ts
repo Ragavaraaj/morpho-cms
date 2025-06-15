@@ -5,12 +5,15 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-type Callback = (
-  key: string,
-  value: string | number | boolean,
-  parentPath: string
-) => void;
-type Wrapper = (parentPath: string, wrappedCallback: () => void) => void;
+type Callback = (props: {
+  name: string;
+  value: string | number | boolean;
+  parentPath: string;
+}) => React.ReactNode;
+type Wrapper = (
+  parentPath: string,
+  wrappedCallback: () => React.ReactNode
+) => React.ReactNode;
 
 interface TraverseOptions {
   arrayWrapper?: Wrapper;
@@ -22,52 +25,71 @@ export function traverseObject<T>(
   callback: Callback,
   options: TraverseOptions = {},
   parentPath = ""
-) {
+): React.ReactNode {
   const { arrayWrapper, objectWrapper } = options;
 
   function processWrapper<T>(
     wrapper: Wrapper | undefined,
     parentPath: string,
     items: T[],
-    processor: (item: T, index: string) => void
+    processor: (item: T, index: string) => React.ReactNode
   ) {
-    if (wrapper) {
-      console.log(`Applying wrapper at path: ${parentPath}`);
-      wrapper(parentPath, () => {
-        if (items.length === 0) {
-          console.warn(`No items found at path: ${parentPath}`);
-        }
-        items.forEach((item, i) => processor(item, i.toString()));
-      });
-    } else {
-      items.forEach((item, i) => processor(item, i.toString()));
+    if (items.length === 0 && !wrapper) {
+      return processor(null as T, "0");
+    }
+
+    if (items.length === 0 && wrapper) {
+      return wrapper(parentPath, () => null);
+    }
+
+    if (items.length !== 0 && wrapper) {
+      return wrapper(parentPath, () =>
+        items.map((item, i) => processor(item, i.toString()))
+      );
+    }
+
+    if (items.length !== 0 && !wrapper) {
+      return items.map((item, i) => processor(item, i.toString()));
     }
   }
 
-  function processItem(item: unknown, index: string) {
+  function processItemForArray(item: unknown, index: string): React.ReactNode {
     const newPath = parentPath ? `${parentPath}.${index}` : index;
     if (typeof item === "object" && item !== null) {
-      traverseObject(item, callback, options, newPath);
+      return traverseObject(item, callback, options, newPath);
     } else {
-      callback(index, item as string | number | boolean, newPath);
+      return callback({
+        name: index,
+        value: item as string | number | boolean,
+        parentPath: newPath,
+      });
+    }
+  }
+
+  function processItemForObject([key, value]: [
+    string,
+    unknown
+  ]): React.ReactNode {
+    const newPath = parentPath ? `${parentPath}.${key}` : key;
+    if (typeof value === "object" && value !== null) {
+      return traverseObject(value, callback, options, newPath);
+    } else {
+      return callback({
+        name: key,
+        value: value as string | number | boolean,
+        parentPath: newPath,
+      });
     }
   }
 
   if (Array.isArray(obj)) {
-    processWrapper(arrayWrapper, parentPath, obj, processItem);
+    return processWrapper(arrayWrapper, parentPath, obj, processItemForArray);
   } else if (typeof obj === "object" && obj !== null) {
-    processWrapper<[string, unknown]>(
+    return processWrapper<[string, unknown]>(
       objectWrapper,
       parentPath,
       Object.entries(obj),
-      ([key, value]) => {
-        const newPath = parentPath ? `${parentPath}.${key}` : key;
-        if (typeof value === "object" && value !== null) {
-          traverseObject(value, callback, options, newPath);
-        } else {
-          callback(key, value as string | number | boolean, newPath);
-        }
-      }
+      processItemForObject
     );
   }
 }

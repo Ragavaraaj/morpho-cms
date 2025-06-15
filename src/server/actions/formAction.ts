@@ -18,7 +18,6 @@ export async function handleGetFormById(id: string) {
 }
 
 export async function handleCreateForm(input: FormInput) {
-  console.log("handleCreateForm", JSON.stringify(input, null, 2));
   const result = FormSchema.safeParse(input);
   if (!result.success) {
     return { error: result.error.format() };

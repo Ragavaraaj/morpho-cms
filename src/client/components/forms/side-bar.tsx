@@ -8,7 +8,7 @@ import {
   FormLabel,
 } from "../shadcn/form";
 import { Switch } from "@/client/components/shadcn/switch";
-import { useFormContext } from "@/client/hooks/useFormDataConext";
+import { useFormContext } from "@/client/hooks/useFormDataContext";
 import { Button } from "@/client/components/shadcn/button";
 
 export function FormSideBar() {

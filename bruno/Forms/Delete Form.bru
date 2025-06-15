@@ -5,7 +5,11 @@ meta {
 }
 
 delete {
-  url: {{BASE_URL}}/forms/{{formId}}
+  url: {{BASE_URL}}/forms/:formId
   body: none
   auth: inherit
+}
+
+params:path {
+  formId: 
 }

@@ -2,63 +2,59 @@
 import dbConnect from "@/server/lib/mongodb";
 import { FormModel } from "@/server/db/form/model";
 import type { Form } from "@/server/db/form/interface";
+import {
+  $full_project,
+  $lookups,
+  $partial_project,
+} from "@/server/db/form/args";
 import { Types } from "mongoose";
 
 export const getForms = async (): Promise<Form[]> => {
   await dbConnect();
-  const forms = await FormModel.find({}, { fields: 0 }).lean();
-  return forms.map((form) => ({
-    _id: form._id?.toString() ?? "",
-    title: form.title ?? "",
-    description: form.description ?? "",
-    slug: form.slug ?? "",
-    status: form.status ?? "",
-  }));
+  const forms = await FormModel.aggregate([{ $match: {} }, $partial_project]);
+  return forms;
 };
 
 export const getFormById = async (id: string): Promise<Form | null> => {
   await dbConnect();
   if (!Types.ObjectId.isValid(id)) return null;
-  const form = await FormModel.findById(id);
-  if (!form) return null;
-  return {
-    _id: form._id?.toString() ?? "",
-    title: form.title ?? "",
-    description: form.description ?? "",
-    slug: form.slug ?? "",
-    status: form.status ?? "",
-  };
+  const form = await FormModel.aggregate([
+    { $match: { _id: new Types.ObjectId(id) } },
+    ...$lookups,
+    $full_project,
+    { $limit: 1 },
+  ]);
+  if (!form?.[0]) return null;
+  return form[0];
 };
 
-export const createForm = async (data: Omit<Form, "_id">): Promise<Form> => {
+export const createForm = async (
+  data: Omit<Form, "id" | "history">
+): Promise<string> => {
   await dbConnect();
-  const created = await FormModel.create(data);
-  return {
-    _id: created._id.toString(),
-    title: created.title,
-    description: created.description,
-    slug: created.slug,
-    status: created.status,
-  };
+  // Create the form document first (without fields)
+  const { fields = [], ...formData } = data;
+  const created = await FormModel.create(formData, { autoCreate: true });
+  if (!created?.id) {
+    throw new Error("Failed to create form");
+  }
+  return created.id.toString();
 };
 
 export const updateForm = async (
   id: string,
-  data: Partial<Omit<Form, "_id">>
-): Promise<Form | null> => {
+  data: Partial<Omit<Form, "id" | "history">>
+): Promise<string> => {
   await dbConnect();
-  if (!Types.ObjectId.isValid(id)) return null;
+  if (!Types.ObjectId.isValid(id)) return "";
   const updated = await FormModel.findByIdAndUpdate(id, data, {
     new: true,
+    $setFields: data.fields,
   });
-  if (!updated) return null;
-  return {
-    _id: updated._id?.toString() ?? "",
-    title: updated.title ?? "",
-    description: updated.description ?? "",
-    slug: updated.slug ?? "",
-    status: updated.status ?? "",
-  };
+  if (!updated) {
+    throw new Error("Failed to update form");
+  }
+  return updated.id.toString();
 };
 
 export const deleteForm = async (id: string): Promise<boolean> => {

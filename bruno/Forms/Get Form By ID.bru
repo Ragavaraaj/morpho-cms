@@ -5,7 +5,11 @@ meta {
 }
 
 get {
-  url: {{BASE_URL}}/forms/{{formId}}
+  url: {{BASE_URL}}/forms/:formId
   body: none
   auth: inherit
+}
+
+params:path {
+  formId: 684eb0c96643f1b126d3a36e
 }

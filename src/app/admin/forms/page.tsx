@@ -1,8 +1,7 @@
-import DashboardTable from "@/client/components/forms-table";
+import { FormsTable } from "@/client/components/forms/table";
 import { handleGetForms } from "@/server/actions/formAction";
 
 export default async function AdminForms() {
-  // Fetch posts directly from the database
   const postsWithStringId = await handleGetForms();
-  return <DashboardTable forms={postsWithStringId} />;
+  return <FormsTable forms={postsWithStringId} />;
 }

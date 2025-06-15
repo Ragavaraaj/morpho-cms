@@ -11,8 +11,8 @@ export async function GET() {
 export async function POST(req: NextRequest) {
   const data = await req.json();
   const result = await handleCreateForm(data);
-  if ("error" in result) {
-    return NextResponse.json(result, { status: 400 });
+  if (result) {
+    return NextResponse.json({ result }, { status: 400 });
   }
   return NextResponse.json(result);
 }

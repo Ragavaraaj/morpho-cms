@@ -14,7 +14,31 @@ body:json {
   {
     "title": "Bruno Test Form",
     "description": "Created from Bruno",
-    "slug": "bruno-test-form",
-    "status": "draft"
+    "slug": "bruno-test-form-6",
+    "status": "DRAFT",
+    "fields": [
+      {
+        "status": true,
+        "label": "Name",
+        "type": "TEXT",
+        "required": true,
+        "placeholder": "Enter your name",
+        "description": "User's full name",
+        "max_length": 100,
+        "selectable_date": 10,
+        "error_messages": [
+          {
+            "type": "REQUIRED",
+            "message": "Name is required"
+          }
+        ],
+        "options": [
+          {
+            "value": "John",
+            "label": "John Doe"
+          }
+        ]
+      }
+    ]
   }
 }

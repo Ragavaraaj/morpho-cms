@@ -1,5 +1,5 @@
 export interface FieldOption {
-  _id: string;
+  id: string;
   value: string;
   label: string;
   fieldId: string; // ObjectId as string

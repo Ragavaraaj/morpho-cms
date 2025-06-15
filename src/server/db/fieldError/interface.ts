@@ -1,5 +1,5 @@
 export interface FieldError {
-  _id: string;
+  id: string;
   type: string; // Should match FieldErrorType enum
   fieldId: string; // ObjectId as string
   message: string;

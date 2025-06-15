@@ -25,10 +25,9 @@ export async function PUT(
   if (!result) {
     return NextResponse.json({ error: "Update failed" }, { status: 400 });
   }
-  if ("error" in result) {
-    return NextResponse.json(result, { status: 400 });
+  if (result) {
+    return NextResponse.json({ result }, { status: 200 });
   }
-  return NextResponse.json(result);
 }
 
 // DELETE /api/forms/[id] - delete form by id
@@ -38,5 +37,5 @@ export async function DELETE(
 ) {
   const ok = await handleDeleteForm(params.id);
   if (!ok) return NextResponse.json({ error: "Not found" }, { status: 404 });
-  return NextResponse.json({ success: true });
+  return NextResponse.json({ success: true }, { status: 200 });
 }

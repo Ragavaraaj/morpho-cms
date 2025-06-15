@@ -2,6 +2,7 @@ import { PUBLISHED_STATUS } from "@/server/db/enum";
 import { Schema, model, models } from "mongoose";
 import type { Form } from "@/server/db/form/interface";
 import { FormFieldSchema } from "@/server/db/formField/model";
+import { FormHistorySchema } from "@/server/db/formHistory/model";
 
 const FormSchema = new Schema({
   publish_status: {
@@ -18,6 +19,7 @@ const FormSchema = new Schema({
   created_at_db: { type: Date, default: Date.now },
   updated_at_db: { type: Date, default: Date.now },
   fields: [FormFieldSchema],
+  history: [FormHistorySchema],
 });
 
 export const FormModel = models.Form<Form> ?? model<Form>("Form", FormSchema);

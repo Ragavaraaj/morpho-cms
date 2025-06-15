@@ -3,10 +3,10 @@ import { FieldErrorType } from "@/server/db/enum";
 
 export const FieldErrorSchema = new Schema({
   type: { type: String, enum: Object.values(FieldErrorType), required: true },
-  fieldId: { type: Schema.Types.ObjectId, ref: "FormField", required: true },
+  fieldId: { type: Schema.Types.ObjectId, ref: "FormField"  },
   message: { type: String, required: true },
-  created_at_db: { type: Date, default: Date.now },
-  updated_at_db: { type: Date, default: Date.now },
+  created_at_db: { type: Date, default: Date.now, required: false },
+  updated_at_db: { type: Date, default: Date.now, required: false },
 });
 
 export const FieldErrorModel =

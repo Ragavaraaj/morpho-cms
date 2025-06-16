@@ -4,7 +4,6 @@ import type { FieldOption } from "@/server/db/fieldOption/interface";
 export interface FormField {
   id: string;
   status: boolean;
-  formId: string; // ObjectId as string
   label: string;
   type: string; // Should match FieldType enum
   required: boolean;
